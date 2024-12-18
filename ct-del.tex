@@ -1,0 +1,742 @@
+\documentclass{article}
+
+
+\title{Categories tannakiennes}
+\author{P. Deligne}
+
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tikz-cd}
+
+
+\swapnumbers
+
+
+\newtheorem{term}{Terminology}[section]
+\newtheorem{env}[term]{}
+\newtheorem{example}[term]{Example}
+\newtheorem{remark}[term]{Remark}
+\newtheorem{theorem}[term]{Theorem}
+\newtheorem{definition}[term]{Definition}
+\newtheorem{proposition}[term]{Proposition}
+\newtheorem{cor}[term]{Corollary}
+\newtheorem{lemma}[term]{Lemma}
+
+
+\DeclareMathOperator{\spec}{\text{Spec}}
+\DeclareMathOperator{\Rep}{\text{Rep}}
+\DeclareMathOperator{\aut}{\text{Aut}}
+\DeclareMathOperator{\Hom}{\text{Hom}}
+\DeclareMathOperator{\End}{\text{End}}
+\DeclareMathOperator{\Vect}{\text{Vect}}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+In [6], N. Saavedra described certain categories equipped with a tensor product, the Tannakian Categories, as the
+categories of representation of gerbes (in particular: representations of a group-scheme). His presentation is
+incomplete (cf. [2].3.15). Our goal is to complete it. I was not able to write a short presentation giving only the 
+missing arguments: many ideas of the article are in [6], due to Saavedra and, through him, to A. Grothendieck
+
+The paragraphs 2 to 5 do not claim to be orignal. They gather results which, in paragraph 6, allows us to complete
+Saavedra's presentation. In paragraph 7, we show that in characteristic 0, a tensor category (1.2), whose every
+object has dimension (7.1) an integer $\geq 0$ is Tannakian. In paragraph 8, we apply the methods of paragraph 6 and
+7 to tensor categories which are not necessarily Tannakian. As an application (8.19), we describe tensor categories
+on $k$, say perfect, equipped with an exact $\otimes$-functor with values in a supervector spaces over $k$ (1.4).
+
+Paragraph 9 gives an application of the formalism of Tannakian categories to Picard-Vessiot theory. Let $(K. \partial)$
+be a differntial field with the field of constants $K_0 := \{x|\partial x = 0\}$ algebraically closed of characteristic
+0 and $y^n + a_1 y^{n-1} + \dots + a_n = 0$ be a linear differntial equation of order $n$ with coefficients in $K$. 
+We see that the the existence of an extension $(E,\partial)$ of $(K,\partial)$, with the same field of constants, in 
+which the equation admits $n$ linearly independent solutions on the constants. This application is the result of 
+discussions with D. Bertrand. The result is a version of E.R. Kolchin ([3 VI 6 prop. 13]). At the end of this 
+introduction, after indicating some terminological conventions, we describe the main result 1.12 of paragraphs 2 to 6.
+
+\begin{term}
+A ring (or an algebra) always means a ring (algebra) with a unit and morphisms send units to units.
+
+In the article , $k$ will mean a commutative rings, often considered to be a field. We only consider the schemes over 
+$k$. Often, we say schemes for schemes over $k$ and morphism of schemes for morphism of schemes over $k$. We denote
+by $X \times Y$, the product over $k$, $X \times _ {\spec k} Y$ and $\Hom (X,Y)$ the be the set of morphisms of 
+schemes over $k$ of $X$ to $Y$.
+
+We identify a representable functor with the object it represents.
+\end{term}
+
+
+\begin{env}
+Let $k$ be a commutative field. In this article, we call simply a tensor category over $k$ what in N. Saavedra [6]
+(resp. Deligne-Milne [2]) mean an abelian $\otimes$-category ACU (associative commutative unital) $k$-linear rigid,
+with $k \xrightarrow {\sim} \End (1)$ (resp. an abelian tensor category, rigid, $k$-linear, with 
+$k \xrightarrow {\sim} \End (1)$ ). The axioms are recalled in 2.1. This is a $k$-linear abelian category
+$\mathcal T$ equipped with a functor $\otimes: \mathcal T \times \mathcal T \rightarrow \mathcal T$ with the 
+constraints of associativity and commutativity for $\otimes$ (the functorial isomorphisms 
+$(X \otimes Y) \otimes Z \xrightarrow{\sim} X \otimes (Y \otimes Z)$ and $X \otimes Y \xrightarrow Y \otimes X$) 
+satisfying suitable axioms. Among the axioms is the existence of a unit object 1.
+\end{env}
+
+\begin{example}\label{trivial}
+The category $\Vect (k)$ of vector spaces of finite dimension over $k$, equipped with the tensor
+product evidently satisfies the constraints of associativity and commutativity.
+\end{example}
+
+\begin{example}
+$\mathcal T$ is the category of vector spaces of finite dimension over $k$, with a 
+$\mathbb Z / 2 \mathbb Z$-gradilng, $\otimes$ the tensor product, with the obvious constraint of associativity and
+commutativity being given by the Koszul's rule: $a \otimes b \mapsto (-1)^{\deg a \deg b}b \otimes a$ for $a$ and $b$ 
+homogeneous.
+This is the category of super vector spaces of finite dimension over $k$.
+\end{example}
+
+\begin{example}\label{orig_tannaka_duality}
+Let $G$ be an affine group scheme over $k$. We denote by $\mathcal T$, the category $\Rep (G)$ of 
+linear representations of finite dimension of $G$ over $k$, with $\otimes$ the tensor product of representations,
+with the usual constraints.
+
+  When $G$ is trivial, we recover example \ref{trivial}.
+\end{example}
+
+\begin{env}
+  A generalisation of example \ref{orig_tannaka_duality} will play an essential role for use. Before the 
+  generalisation, some preliminaries\dots
+
+  Let $S$ be a scheme over $k$. Recall (SGA 3 V1) that a $k$-groupoid acting on $S$ is a scheme $G$ over $k$ equipped
+  with source and target morphisms: $b,s : G \rightarrow S$ and a composition law 
+  $\circ: G \underset{ ^s S ^b} \times G \rightarrow G$ which is a morphism of scheme over $S \times S$, such that
+  for every scheme $T$ over $k$, $S(T) := \Hom (T,S)$, $G(T) := \Hom(T,G)$, $s,b : G(T) \rightarrow S(T)$,
+  $\circ$ defines a category (objects: $S(T)$, arrows: $G(T)$) for which all arrows are invertible. This can 
+  also be expressed in tems of diagrams: associativity expressed by the equality of the compositions
+  $$ \begin{tikzcd}
+    G \underset{^s S ^b} \times G \underset{^s S ^b}\times G\arrow[r,"\circ \times Id",shift left]\arrow[r,"Id \times \circ"',shift right] & G \underset{^s S ^b} \times G \arrow [r]& G,
+  \end{tikzcd} $$
+  the identity arrow is an $S\times S$ morphism $\epsilon: S \rightarrow G$ 
+  ($S$ is an $S\times S$ schemes via the diagonal) such that the compositions
+  $$ 
+  \begin{tikzcd}
+    G = G \underset{^s S}\times S = S \underset{S^b}\times G \arrow [r,shift left,"\epsilon \times Id"]\arrow[r,shift right,"Id\times \epsilon"']& G \underset{^s S ^b}\times G \arrow [r,"\circ"]& G
+  \end{tikzcd}
+  $$
+  are the identity morphism, the inverse by $"-1":G \rightarrow G$ with $s "-1" = "-1"b$, $b"-1" = "-1"s$, and 
+  the following diagrams commute 
+  $$ 
+  \begin{tikzcd}[column sep=large]
+    G \arrow [r,"\text{"$-1$"} \times Id "]\arrow [d,"s"]& G\underset {^s S ^b}\times G\arrow [d,"\circ"] \\ S \arrow[r,"\epsilon"]& G
+  \end{tikzcd}
+  \begin{tikzcd}
+     & & \\  & & 
+  \end{tikzcd}
+  \begin{tikzcd}[column sep=large]
+    G \arrow [r,"Id \times \text{"$-1$"}"]\arrow [d,"b"]& G\underset {^s S ^b}\times G\arrow [d,"\circ"] \\ S \arrow[r,"\epsilon"]& G.
+  \end{tikzcd}
+  $$
+  The terminology of SGA 3 V1 is that $(S,G)$ is a (schemes over $k$)-groupoid. 
+
+  For $u:T \rightarrow S$, the pullback of $G$ over $u\times u: T \times T \rightarrow S \times S$ is a 
+  $k$-groupoid over $T$: the induced groupoid $G_T$.
+
+  A representation of $G$ is a quasi-coherent sheaf $V$ over $S$ equipped with an action $\rho$ of $G$, i.e. 
+  every given $k$-scheme $T$ and every $g \in G(T)$, there is a homomorphism 
+  $\rho (g): V_{s(g)} \rightarrow V_{b(g)}$ betwwen the two images of $V$ by $s(g)$ and $b(g):T \rightarrow S$. 
+  We require $\rho(g)$ to be compatible under base change $T' \rightarrow T$, $\rho(gh) = \rho(g)\rho(h)$ 
+  (for $s(g) = b(h)$) and the for every $g$, the identity automorphism $\epsilon(s)$ for $s \in S(T)$, $\rho(g)$ 
+  is the identity automorphism of $V_s$. Since $G$ is a groupoid, $\rho(g)$ is an isomorphism. An action $\rho$ 
+  is determined by $\rho(g)$ in the universal case $T=G$, $g = Id_G: G \rightarrow G$, i.e. for every morphism 
+  $u:s^*V \rightarrow b^*V$ between quasi-coherent sheaves on $G$. This morphism must satisfy:
+  \begin{enumerate}
+    \item   Over $G \underset {^sS^b} \times G$, the inverse image of $u$ under 
+            $\circ:G \underset {^sS^b} \times G \rightarrow G$ is the composition $pr_1^*(u)\circ pr_2^*(u)$;
+
+    \item   $epsilon^*(u)$ is identity.
+  \end{enumerate}
+  
+  We say that the groupoid $G$ is transitive over $S$ (in the fpqc sence) if the morphism 
+  $(b,s):G \rightarrow S \underset k \times S$ is a cover in the sence of fpqc, i.e. there exists a $T$ 
+  faithfully flat quasi-compact over $S \times S$ with $\Hom _{S \times S} (T,G) \neq \emptyset$. If $G$ is transitive,
+  then 
+  \begin{enumerate}
+    \item $G$ is flat, so faithfully flat over $S \times S$ (3.6);
+    \item if $G$ acts on quasi-coherent $V$ and the fibers $V_s$ are vector spaces of finite rank $n$ over the 
+      residue field $k(s)$, so $V$ is locally free of rank $n$(3.5).
+  \end{enumerate}
+
+\end{env}
+
+\begin{example}
+  Let $G$ be a $k$-groupoid acting transitively over a non-empty $S$ over $k$. We take $\mathcal T$ to be the 
+  category of locally free sheaves of finite rank over $S$ equipped with an action of $G$ and for the 
+  tensor product functor $\otimes$ equipped with the obvious constraints. 
+  Notation: $\text{Rep}(S:G)$.
+  
+  When $S$ is a point $S = \spec (k)$, we recover \ref{orig_tannaka_duality}.
+\end{example}
+
+\begin{remark}
+  Let $G$ be a groupoid acting transitively on $S$, $u: T \rightarrow S$ and $G_T$ is the induced groupoid (1.6). 
+  We verify (3.5) that if $T \neq \emptyset$, $u^* : \text{Rep}(S:G) \rightarrow \text{Rep}(T:G_T)$ is an 
+  equivalence of categories. In particular, if $S(k) \neq \emptyset$, so $x \in S(k)$ and $G_x$ is an algebraic 
+  group over $k$ over fixed $x$ (the fiber of $G$ over $(x,x)$), we have $\text{Rep}(S:G) \rightarrow \text{Rep}(G_x)$
+\end{remark}
+\begin{env}
+  Let $\mathcal T$ be a tensor category over $k$ and $S$ be a $k$-scheme. A fiber functor of $\mathcal T$ over $S$ 
+  is a $k$-linear exact functor $\omega$ of $\mathcal T$ to the category of quasi-coherent sheaves on $S$,
+  equipped with a natural isomorphism $\omega(X) \otimes \omega (Y) \xrightarrow \sim \omega(X \otimes Y)$ ACU, i.e. 
+  compatible with the constraints of associativity, commutativity and having a unit (2.7). The axioms imposed on 
+  $\mathcal T$ imply that $\omega$ takes values in locally free sheaves of finite rank (2.8). For $S = \spec (B)$,
+  $\omega$ is identified by a functor of $\mathcal T$ to the category of finite-type projective $B$-modules. We 
+  again call $\omega$ a fiber functor over $B$. 
+
+  Let $\omega_1$ and $\omega_2$ be two fiber functors over $S$. A $\otimes$-isomorphism, or an isomorphism of 
+  fiber functors $u:\omega_1 \rightarrow \omega_2$ is an isomorphism of functors such that the diagram 
+  commutes 
+  $$\begin{tikzcd}
+    \omega_1(X) \otimes \omega_1(Y) \arrow[r]\arrow[d,"u\otimes u"]& \omega_1(X \otimes Y) \arrow[d,"u"]\\
+    \omega_2(X) \otimes \omega_2(Y) \arrow[r] & \omega_1(X \otimes Y)
+  \end{tikzcd}$$
+  and such that $u: \omega_1(1) \rightarrow \omega_2(1)$ is the identity automorphism of $\mathcal O_S$.
+\end{env}
+
+\begin{env}
+  In [6], Saavedra claims with insuffcient demonstration (cf. [2] 3.15) that: (*) two fiber functors of $\mathcal T$ 
+  over $\spec (B)$ are locally isomorphic for the fpqc topology, i.e. there exists $B'$ over $B$, faithfully flat,
+  such that $\omega_1$ and $\omega_2$ after extension of scalars from $B$ to $B'$.
+
+  Our first goal is the show that the assertion (*) is true (with the additional necessary hypothesis, 
+  $k \xrightarrow \sim \End (1)$ that Saavedra had forgotten) and justify all the results of [6].
+\end{env}
+
+\begin{env}
+  If $\omega_1$ and $\omega_2$ are two fiber functors over $S$, we denote by
+  $\underline{\text{Isom}}^\otimes _ k (\omega_1, \omega_2)$  the functor that takes $T$ over $S$ : 
+  $u : T \rightarrow S$ to the set of isomorphism of fiber functors $u^*\omega_1$ with $u^*\omega_2$. The functor 
+  is representable by an affine scheme over $S$. If $\omega_i$ is a fiber functor over $S_i$ (i=1,2), we write
+  $$ \underline{\text{Isom}}^\otimes _ k (\omega_2, \omega_1) := 
+    \underline{\text{Isom}}^\otimes _ {S_1 \times S_2} (pr_2^*\omega_2, pr_1^*\omega_1) $$
+  For a fiber functor $\omega$ over $S$, we write 
+  $\underline {\text{Aut}}_S ^\otimes (\omega) = \underline{\text{Isom}}^\otimes _ S (\omega, \omega)$
+  and
+  $$\underline {\text{Aut}}_k ^\otimes (\omega) = \underline{\text{Isom}}^\otimes _ k (\omega, \omega)$$
+
+  Following conventions (1.1), we identity the functors with the schemes they represent. The scheme 
+  $\underline{\text{Aut}}^\otimes_k (\omega)$ is a $k$-groupoid acting over $S$. The target morphism $b$ (resp. source 
+  $s$) is the composition of $pr_1$ (resp. $pr_2$) with the projections over $S \times S$. We prove in 
+  1.13(b), 6.8, 6,14 and 6.15 the following result.
+\end{env}
+
+\begin{theorem}
+  Let $\mathcal T$ be a tensor category over $k$ and $\omega$ be a fiber functor of $\mathcal T$  over a 
+  $k$-scheme $S \neq \emptyset$.
+  \begin{enumerate}
+    \item The groupoid $\underline{\text{Aut}}^\otimes _k (\omega)$ is faithfully flat over $S \times S$;
+    \item $\omega$ induces an equivalence of $\mathcal T$ with  the category 
+      $\text{Rep}(S:\underline{\text{Aut}}^\otimes _k (\omega))$ of representations of the groupoid 
+      $\underline{\text{Aut}}^\otimes _k (\omega)$
+  \end{enumerate}
+  Conversely,  let $G$ be a $k$-groupoid acting on affine $S \neq \emptyset$ and faithfully flat over $S \times S$ 
+  and $\omega$ is a fiber functor of $\text{Rep}(S:G)$ over $S$ "forgetting the action of $G$." We have 
+  \begin{enumerate}
+      \setcounter{enumi}{2}
+    \item  $$G \xrightarrow \sim \underline{\text{Aut}}_k ^\otimes (\omega)$$
+  \end{enumerate}
+\end{theorem}
+  The theorem provides a dictionary of tensor category over $k$ equipped with a fiber functor over $S$ and 
+  $k$-groupoids acting transitively over $S$ and affine over $S\times S$.
+  \begin{remark}
+    \begin{enumerate}
+      \item If $\omega_1$ and $\omega_2$ are fiber functors over $S_1$ and $S_2$, there exists a disjoint union 
+        $T := S_1 \coprod S_2$ and a fiber funcotr $\omega$, unique upto a unique isomorphism, equipped with 
+        isomorphisms $\omega |S_j = \omega_j$ (j=1,2). We apply 1.12.1 to $\omega$. The pullback over 
+        $S_2 \times S_1$ of the scheme $\underline{\text{Aut}} ^ \otimes _ k (\omega)$ to $T \times T$ is 
+        $\underline{\text{Isom}}_k ^\otimes (\omega_1,\omega_2)$. According to 1.12.1, 
+        $\underline{\text{Isom}}_k ^\otimes (\omega_1,\omega_2)$ is faithfully flat over $S_2 \times S_1$. 
+
+        For $S_1 = S_2 = S$, the restriction to the diagonal of 
+        $\underline{\text{Isom}}_k ^\otimes (\omega_1,\omega_2)$ is 
+        $\underline{\text{Isom}}_S ^\otimes (\omega_1,\omega_2)$. The $S$-scheme 
+        $\underline{\text{Isom}}_S ^\otimes (\omega_1,\omega_2)$ is hence faithfully flat over $S$. This justifies 
+        1.10(*).
+      \item If 1.12 is true over affine $S$, then it is true in general. For the assertion 1, if $S_i$ is an 
+        open affine covering of $S$, the pullback of $\underline{\text{Aut}}^\otimes _k (\omega)$ over 
+        $S_i \times S_j$ is $\underline{\text{Isom}}^\otimes _k (\omega |S_i, \omega|S_j)$ and, applying 
+        1.13.1, we conclude that 1.12.1 applies to $S_i \coprod S_j$. For 2, observe that for $U$ an non-empty affine 
+        open over $S$, we have by 1.8 
+        $\text{Rep}(S:\underline{\text{Aut}}_k ^\otimes (\omega)) \xrightarrow \sim 
+        \text{Rep}(U:\underline {\text{Aut}} ^ \otimes _k (\omega(U))$. We conclude by 1.12.2 for $U$.
+        For 3. If $U_1$ and $U_2$ are non-empty open affine of $S_x$ and that $G_U$ is the induced groupoid over 
+        $U = U_1 \coprod U_2$, we have $\text{Rep} (S:G) \xrightarrow \sim \text{Rep}(U:G_U)$ and by 1.12.3 applied
+        to $U$, the morphism $G \rightarrow \underline{\text{Aut}}_k(\omega)$ is an isomorphism by above on 
+        $U_1 \times U_2$.
+    \end{enumerate}
+  \end{remark}
+  \begin{env}
+    Let $G$ be a groupoid acting on $S= \spec (B)$. Suppose $G$ is affine over $S\times S$, i.e. affine: 
+    $G = \spec (L)$. Since $(b,s)$ makes $G$ a scheme over $S \times S := S \underset {\spec (k)} \times S$ (1.1),
+    $L$ is a $B\underset k\otimes B$-module, i.e. a $B,B$-bimodule such that the two structures induce coinciding 
+    $k$-modules. We write to the left (resp. to the right) the structure of $B$-module defined by $b$ (resp. $s$). 
+
+    The $B,B$-bimodule $L$ is equipped with the following structure: 
+    \begin{enumerate}
+      \item $L$ is a commutative $B \underset k \otimes B$-algebra, with the product 
+        $$ p : L \underset {B \otimes B} \otimes L \rightarrow L.$$
+      \item The law of composition $G \underset {^sS^b} \times G \rightarrow G$ corresponds to 
+        $$ c: L \rightarrow L \underset B \otimes L$$
+    \end{enumerate}
+    and identity $\epsilon:S \rightarrow G$ to $e: L \rightarrow B$.
+
+    Let $M$ be a $B$-module (= a quasi-coherent sheaf over $S$). An action of $G$ over $M$ is a morphism of 
+    $L$-modules $$ L \underset {^s B} \otimes M \rightarrow M \underset{B ^ b} \otimes L $$ or, which again amounts to 
+    a morphism of $B$-modules $$r: M \rightarrow M \underset {B^b} \otimes L$$ (to the right, the structure of 
+    $B$-module defined by the right structure on $L$), with the compatibility of the composition to the 
+    neutral elements. The compatibility translates by 1.14.1, the equality of the following compositions
+    $$ \begin{tikzcd} M \arrow[r,"r"] & 
+      M \otimes L \arrow[r,shift left,"r \otimes L"]\arrow [r,shift right,"L \otimes c"'] & 
+      M \otimes L \otimes L, \end{tikzcd} $$
+    and the equality of the composition $M \xrightarrow r M \otimes L \xrightarrow {M \otimes e}  M$ to the identity.
+
+    We see that only structure (2) was used on $L$.
+  \end{env}
+  \begin{env}
+    Inspired by this remark, for every ring $B$ not necessarily commutative, we define a co-algebra $L$ be 
+    be a bimodule over $B$ equipped with a bimodule morphism $c: L \rightarrow L \underset B \otimes L$ satisfying
+    the axioms of coassociativity: $c$ equalizes the double arrow ($c \otimes 1$,$1\otimes c$)
+    $$ 
+    \begin{tikzcd}
+      L \arrow[r,"c"]& L\underset B \otimes L \arrow[r,shift left , "c \otimes 1"]\arrow[r,shift right,"1 \otimes c"']
+      & L\underset B \otimes L\underset B \otimes L
+    \end{tikzcd}
+    $$
+    and admits a counit $e: L \rightarrow B$: a morphism of bimodules such the the compositions
+    $$ 
+    \begin{tikzcd}
+      L \arrow[r,"c"] & L \otimes L \arrow[r,shift left,"e \otimes 1"]\arrow[r,shift right,"1 \otimes e"'] & L
+    \end{tikzcd}
+    $$
+    are identity. Note that if $c$ admits a counit, then it is unique. We will need only the case in which 
+    $B$ is commutative, but not assuming it helps in not mixing up the left and the right.
+
+    If $B$ is commutative and that the two structures of $B$-module over $L$ coincide, we retrieve the 
+    co-algebra over $B$, hence the terminology. If $k$ is a commutative ring and $B$ is a $k$-algebra, we define a
+    $k$-co-algebra $L$ to be a co-algebra $L$ such that the two structures of $k$-modules induced by the 
+    structures of $B$-modules coincide.
+
+    A representation of $L$ is a right $B$-module $M$ equipped with a coaction of $L$, i.e. a morphism of right 
+    $B$-modules $r:M \rightarrow M \underset B \otimes L$ satisfying (1.14.1) (1.14.2). If $L$ is a flat left 
+    $B$-module, the category of representations of $L$ is abelian and the forgetful functor of the coaction is exact.
+  \end{env}
+  \begin{env}
+    Let $\mathcal T$ be a tensor category over $k$, $S = \spec (B)$ be an affine scheme over $k$ and $\omega$ be 
+    a fiber functor of $\mathcal T$ over $S$. Imitating Saavedra, we begin by forgetting the tensor product and 
+    construct a $k$-co-algebra $L$ acting on $B$ such that $\omega$ factors through an equivalence of categories 
+    of $\mathcal T$ and the category of locally free sheaves of finite rank over $S$ equipped with a coaction of $L$.
+    The proof (6.1, 6.2) is an application of the theorem of Barr-Beck (4.1). It is similar the the theorem of 
+    faithfully flat descent SGA 1 VIII 1. The compatibility of $\omega$ with the tensor product equips $L$ with a 
+    product and we verify that $G:=\spec (L)$ is the groupoid $\underline {\text{Aut}}_k (\omega)$ acting 
+    on $S$ (6.3 - 6.6).
+
+    It remains to show that $G$ is faithfully flat over $S \times S$. We construct a tensor category 
+    $\mathcal T \otimes \mathcal T$ with suitable properties - in particular that a fiber functor $\omega$ of 
+    $\mathcal T$ defines a fiber functor $\omega \times \omega$ of $\mathcal T \otimes \mathcal T$ over $S \times S$. 
+    The $B \otimes B$-module $L$ will be faithfully flat as the image under $\omega \times \omega$ is an Ind-object 
+    containing 1 of $\mathcal T \otimes \mathcal T$.
+
+    We give two proofs of the existence of the tensor category $\mathcal T \otimes \mathcal T$. The first uses a 
+    theorem of passing to generic quotient (3.11) and the hypothesis $\End (1) = k$ for seeing the if 
+    $\mathcal T$ is finitely $\otimes$-generated, there exists a fiber funtor $\omega_1$ over the scheme $S_1$, 
+    which is the spectrum of a finite extension of $k$ with $G_1 = \underline{\text{Aut}}_k ^\otimes (\omega_1)$ 
+    faithfully flat over $S_1 \times S_1$. From the structure theorem $\mathcal T \sim \text{Rep} (S_1 : G_1)$ we 
+    deduce the existence of the required tensor category $\mathcal T \otimes \mathcal T$ (5.21). The second 
+    proof relies on a direct construction. It only applies when $k$ is perfect.
+  \end{env}
+
+\section{Reminders and complements: tensor categories}
+Let $k$ be a commutative field.
+\begin{env}
+  The axioms of tensor categories over $k$ (in our sense, see 1.2) are as follows.
+
+  (2.1.1) \quad The category $\mathcal T$ is equipped with a tensor product functor 
+  :make
+  $\otimes: \mathcal T \times \mathcal T \rightarrow \mathcal T$, satisfying the constraints of associativity and 
+  commutativity compatible for $\otimes$ ([4], [5] VII 7, where the terminology is "symmetric monoidal category",
+  [6] I \S1.2 or [2] \S1 p.104) and there exists a unit object $1$ ([6] I 1.3.2; the unit object is unique upto 
+  isomorphism; it is equipped with the constraint $X\otimes 1 \xrightarrow \sim X$ and 
+  $1 \otimes X \xrightarrow\sim X$).
+
+  These axioms allow us to define the product $\otimes$ over a finite family $(X_i)_{i \in I}$ of object of 
+  $\mathcal T$.
+
+  (2.1.2) \quad For every $X$, there exists $X ^\vee$ and morphism $\text{ev} : X \otimes X^\vee \rightarrow 1$ and
+  $\delta: 1 \rightarrow X ^\vee \otimes X$ such the the compositions 
+  $$\begin{tikzcd}[column sep=large]
+    X \arrow[r,"X \otimes \delta"] & X\otimes X ^ \vee \otimes X \arrow[r,"\text{ev}\otimes X"] & X \\
+    X^\vee \arrow[r,"\delta \otimes X^\vee"] & X^\vee\otimes X \otimes X^\vee \arrow[r,"X^\vee \otimes \text{ev}"] 
+    & X^\vee
+  \end{tikzcd}$$
+  are identity.
+
+  (2.1.3) \quad The category is abelian.
+
+  (2.1.4) \quad An isomorphism $k \xrightarrow \sim \End(1)$ of $k$ with the endomorphism ring of $1$ is given.
+\end{env}
+
+\begin{env}
+  Let $\mathcal M$ be a monoidal category ([5] VII 1), i.e. equipped with 
+  $\otimes : \mathcal M \times \mathcal M \rightarrow \mathcal M$, satisfying the constraints of associativity 
+  ([6 I 1.1.1]) and admitting a unit object 1. The functor sending $\mathcal M$ in the category
+  $\underline{\Hom}(\mathcal M, \mathcal M)$ of functors of $\mathcal M$ to $\mathcal M$ :
+  $X \mapsto (\text{the functor } s_X: Z \mapsto X \otimes Z)$ is faithful. It admits a retraction 
+  $s \mapsto s(1)$. It is equipped with a natural isomorphism 
+  $s_X \circ s_y \xrightarrow \sim s_{X\otimes Y}: X \otimes (Y \otimes Z) \xrightarrow \sim (X \otimes Y) \otimes Z$.
+  This isomorphism is AU: compatible with the constraints of associativity and admits 
+  $s_1 \xrightarrow \sim Id_{\mathcal M}$, compatible with the constraints of being a unit. After applying 
+  the functor $s$,$X,X ^ \vee, \text{ev}$ and $\delta$ as in (2.1.2), provide an adjunction of functors:
+  $s_X$ is left adjoint of $s_{X ^ \vee}$. Let $d$ be the functor
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{cor}
+\end{cor}
+
+\begin{proof}
+\end{proof}
+
+\begin{remark}
+\end{remark}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{lemma}
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{cor}
+\end{cor}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\section{Reminders and complements: groupoids}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+ 
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{cor}
+\end{cor}
+
+\begin{cor}
+\end{cor}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\section{}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{remark}
+\end{remark}
+
+\begin{env}
+\end{env}
+
+\begin{example}
+\end{example}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\section{Tensor product of abelian categories}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{cor}
+\end{cor}
+
+\begin{proof}
+\end{proof}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+  This section is missing 
+\end{env}
+
+\begin{lemma}
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{lemma}
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+\begin{lemma}
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+\section{The main theorem}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{env}
+\end{env}
+ 
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{lemma}
+\end{lemma}
+
+\begin{env}
+\end{env}
+
+\begin{lemma}
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{lemma}
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{env}
+\end{env}
+
+\begin{lemma}
+\end{lemma}
+
+\begin{lemma}
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+\begin{proposition}
+\end{proposition}
+
+\begin{proof}
+\end{proof}
+
+\begin{cor}
+\end{cor}
+
+\begin{proof}
+\end{proof}
+
+\begin{env}
+\end{env}
+
+\end{document}
